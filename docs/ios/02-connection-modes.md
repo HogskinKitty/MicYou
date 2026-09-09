@@ -104,3 +104,57 @@ Idle ──start──▶ Connecting ──handshake/WS ok──▶ Streaming
 - Wi-Fi/USB 显示 IP（USB 灰显固定 `127.0.0.1`）+ 端口 + 传输协议（TCP/TCP+UDP）。
 - Web 显示主机 + webPort（默认 8443），无传输协议选项。
 - Wi-Fi 额外显示"扫描设备"按钮 + 已发现设备列表。
+
+## 7. USB 模式排障
+
+| 症状 | 原因 | 解决 |
+|---|---|---|
+| 连接超时 | iproxy 未启动 / 端口不匹配 | 确认 `iproxy 8554 8554` 正在运行；`lsof -i :8554` 检查 |
+| 「信任此电脑」循环 | iOS 未信任 Mac | 设置 → 通用 → VPN与设备管理 → 信任 |
+| iproxy 报 `Could not start` | 端口被占用 | `lsof -i :8554` 找占用进程，或换端口 |
+| UDP 音频断续 | iproxy 仅转发 TCP | Both 模式需额外 `iproxy 8555 8555` |
+| 连接成功但无声音 | 桌面端未启动 / 未选输出设备 | 确认桌面 app 已启动并选了虚拟麦克风 |
+
+### 7.1 验证 iproxy 转发
+```bash
+# Mac 端检查 iproxy 进程
+ps aux | grep iproxy
+
+# 检查端口监听
+lsof -i :8554    # TCP
+lsof -i :8555    # UDP（Both 模式）
+
+# 用 nc 测试 TCP 连通性（Mac 本地）
+nc -z 127.0.0.1 8554 && echo "TCP OK"
+```
+
+### 7.2 iproxy vs adb reverse 对照
+| Android (adb reverse) | iOS (iproxy) |
+|---|---|
+| `adb reverse tcp:8554 tcp:8554` | `iproxy 8554 8554` |
+| 手机端 `adb` 自动管理 | Mac 端手动启动（或写 launchd plist 开机自启） |
+| 转发方向：桌面→手机 | 转发方向：Mac→iPhone |
+| 无需额外安装 | `brew install libimobiledevice` |
+
+### 7.3 iproxy 开机自启（launchd）
+```xml
+<!-- ~/Library/LaunchAgents/top.micyou.iproxy.plist -->
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>top.micyou.iproxy</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/opt/homebrew/bin/iproxy</string>
+    <string>8554</string><string>8554</string>
+  </array>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+</dict>
+</plist>
+```
+```bash
+launchctl load ~/Library/LaunchAgents/top.micyou.iproxy.plist
+```
