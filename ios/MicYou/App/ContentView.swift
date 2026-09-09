@@ -37,28 +37,3 @@ final class MainViewModel: ObservableObject {
         var themeMode: ThemeMode = .system
     }
 }
-
-enum StreamState {
-    case idle, connecting, streaming, error
-
-    var label: String {
-        switch self {
-        case .idle: return "点击开始"
-        case .connecting: return "连接中…"
-        case .streaming: return "流式中"
-        case .error: return "错误"
-        }
-    }
-}
-
-enum ThemeMode: String {
-    case system, light, dark
-
-    var colorScheme: ColorScheme? {
-        switch self {
-        case .system: return nil
-        case .light: return .light
-        case .dark: return .dark
-        }
-    }
-}
