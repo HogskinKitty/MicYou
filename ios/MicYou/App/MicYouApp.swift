@@ -6,14 +6,22 @@ import SwiftUI
 /// 部署目标 iOS 15.0（iPhone 6s 基准）。对齐 Android `MicYouApplication` + `MainActivity`。
 @main
 struct MicYouApp: App {
-    @StateObject private var viewModel = MainViewModel()
+    @StateObject private var viewModel: MainViewModel
+    @StateObject private var theme: ThemeManager
+
+    init() {
+        let vm = MainViewModel()
+        _viewModel = StateObject(wrappedValue: vm)
+        _theme = StateObject(wrappedValue: ThemeManager(settings: vm.settings))
+    }
 
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(viewModel)
                 .environmentObject(viewModel.settings)
-                .preferredColorScheme(viewModel.settings.themeMode.colorScheme)
+                .environmentObject(theme)
+                .micyouTheme(theme)
                 .onAppear { viewModel.onLaunch() }
         }
     }

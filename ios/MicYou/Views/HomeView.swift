@@ -7,6 +7,7 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject var viewModel: MainViewModel
     @EnvironmentObject var settings: AppSettings
+    @EnvironmentObject var theme: ThemeManager
 
     var body: some View {
         NavigationStack {
@@ -20,10 +21,11 @@ struct HomeView: View {
                 }
                 .padding()
             }
+            .background(theme.backgroundColor)
             .safeAreaInset(edge: .bottom) {
                 StreamControlBar()
                     .padding()
-                    .background(.bar)
+                    .background(theme.isOledBlack ? Color.black : Color(.bar))
             }
             .navigationTitle("MicYou")
             .navigationBarTitleDisplayMode(.inline)
@@ -79,7 +81,7 @@ struct HomeView: View {
             ConnectionPanel()
         }
         .padding()
-        .background(Color(.secondarySystemBackground))
+        .background(theme.secondaryBackgroundColor)
         .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
