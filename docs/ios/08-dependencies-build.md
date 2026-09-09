@@ -61,9 +61,22 @@ ios/MicYouOpus/
   }
   ```
 
-## 4. Xcode 工程
+## 4. Xcode 工程（XcodeGen）
 
-- `ios/MicYou.xcodeproj`（`project.pbxproj` 入库；`xcuserdata` 已 gitignore）。
+工程以 **XcodeGen `ios/project.yml`** 为单一事实来源（避免手维护 `project.pbxproj`）。
+生成的 `MicYou.xcodeproj` **不入库**（`ios/.gitignore`），由 `setup.sh` / CI 生成。
+
+### 4.1 一次性准备（macOS）
+```bash
+bash ios/setup.sh
+# 等价于：brew install swift-protobuf xcodegen
+#         bash ios/MicYouOpus/build-opus.sh        # 产 opus.xcframework
+#         bash ios/scripts/generate-proto.sh       # 产 network.swift
+#         xcodegen generate --spec ios/project.yml --project ios
+open ios/MicYou.xcodeproj
+```
+
+### 4.2 工程配置（`project.yml`）
 - Target `MicYou`（iOS app）：
   - `IPHONEOS_DEPLOYMENT_TARGET = 15.0`
   - `MARKETING_VERSION = 2.0.3`、`CURRENT_PROJECT_VERSION = 27`（对齐 `gradle.properties`）

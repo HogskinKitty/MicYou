@@ -1,0 +1,13 @@
+# MicYou iOS 生成产物
+MicYou.xcodeproj/
+MicYou.xcworkspace/
+
+# SwiftProtobuf 生成
+MicYou/Protocol/Generated/*.swift
+
+# libopus 二进制（由 build-opus.sh 在 macOS 生成）
+MicYouOpus/opus.xcframework
+MicYouOpus/build-work/
+
+# XcodeGen 缓存
+*.xcodeproj/xcuserdata/

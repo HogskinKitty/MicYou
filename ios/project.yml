@@ -1,0 +1,86 @@
+name: MicYou
+options:
+  bundleIdPrefix: top.micyou
+  deploymentTarget:
+    iOS: "15.0"
+  developmentLanguage: en
+  createIntermediateGroups: true
+  groupSortPosition: top
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "2.0.3"
+    CURRENT_PROJECT_VERSION: "27"
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_IDENTITY: "-"
+    CODE_SIGNING_REQUIRED: "NO"
+    CODE_SIGNING_ALLOWED: "NO"
+    ENABLE_USER_SCRIPT_SANDBOXING: "NO"
+    ALWAYS_SEARCH_USER_PATHS: "NO"
+packages:
+  SwiftProtobuf:
+    url: https://github.com/apple/swift-protobuf
+    from: "1.27.0"
+  MicYouOpus:
+    path: MicYouOpus
+targets:
+  MicYou:
+    type: application
+    platform: iOS
+    deploymentTarget: "15.0"
+    sources:
+      - path: MicYou
+        excludes:
+          - "Resources/opus.xcframework"
+    resources:
+      - path: MicYou/Resources/Assets
+        optional: true
+    info:
+      path: MicYou/Info.plist
+      properties:
+        CFBundleDisplayName: MicYou
+        CFBundleShortVersionString: "2.0.3"
+        CFBundleVersion: "27"
+        LSRequiresIPhoneOS: true
+        UILaunchScreen:
+          UIColorName: ""
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+        UIBackgroundModes:
+          - audio
+        NSMicrophoneUsageDescription: "MicYou 需要麦克风权限以采集音频并发送到电脑"
+        NSLocalNetworkUsageDescription: "MicYou 需要本地网络权限以发现并连接电脑"
+        NSBonjourServices:
+          - "_micyou._tcp"
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
+          NSExceptionDomains:
+            127.0.0.1:
+              NSExceptionAllowsInsecureHTTPLoads: true
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: top.micyou.ios
+        GENERATE_INFOPLIST_FILE: "NO"
+        INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.utilities
+        TARGETED_DEVICE_FAMILY: "1,2"
+    dependencies:
+      - package: SwiftProtobuf
+      - package: MicYouOpus
+  MicYouTests:
+    type: bundle.unit-test
+    platform: iOS
+    deploymentTarget: "15.0"
+    sources:
+      - path: MicYouTests
+        optional: true
+    dependencies:
+      - target: MicYou
+schemes:
+  MicYou:
+    build:
+      targets:
+        MicYou: all
+        MicYouTests: [test]
+    test:
+      targets:
+        - MicYouTests

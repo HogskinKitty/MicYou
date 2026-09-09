@@ -1,0 +1,3 @@
+# SwiftProtobuf 生成产物占位。
+# 运行 `bash ios/scripts/generate-proto.sh`（或 `ios/setup.sh`）后生成 network.swift。
+# 生成的 network.swift 不入库（见 ios/.gitignore）。
