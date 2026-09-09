@@ -75,6 +75,7 @@ targets:
         optional: true
     dependencies:
       - target: MicYou
+      - package: MicYouOpus
 schemes:
   MicYou:
     build:
