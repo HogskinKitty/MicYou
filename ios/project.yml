@@ -6,6 +6,12 @@ options:
   developmentLanguage: en
   createIntermediateGroups: true
   groupSortPosition: top
+  knownRegions:
+    - en
+    - zh-Hans
+    - zh-Hant
+    - zh-HK
+    - ca
 settings:
   base:
     SWIFT_VERSION: "5.0"

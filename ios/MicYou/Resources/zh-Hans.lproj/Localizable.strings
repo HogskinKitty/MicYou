@@ -1,0 +1,85 @@
+/* MicYou iOS - 简体中文 */
+
+/* App */
+"app.name" = "MicYou";
+
+/* Connection */
+"connection.mode" = "连接模式";
+"connection.wifi" = "Wi-Fi";
+"connection.usb" = "USB (iproxy)";
+"connection.web" = "Web";
+"connection.ip" = "IP 地址";
+"connection.port" = "端口";
+"connection.target" = "目标";
+"connection.host" = "主机";
+"connection.webPort" = "Web 端口";
+"connection.transport" = "传输协议";
+"connection.settings" = "连接设置";
+"connection.tcp" = "TCP";
+"connection.both" = "TCP+UDP";
+
+/* State */
+"state.idle" = "待机";
+"state.connecting" = "连接中…";
+"state.streaming" = "流式中";
+"state.error" = "错误";
+
+/* Button */
+"button.start" = "开始";
+"button.stop" = "停止";
+
+/* Settings */
+"settings.title" = "设置";
+"settings.appearance" = "外观";
+"settings.behavior" = "行为";
+"settings.language" = "语言";
+"settings.visualizer" = "可视化";
+"settings.update" = "更新";
+"settings.about" = "关于";
+"settings.theme" = "主题模式";
+"settings.dynamicColor" = "动态取色";
+"settings.oledBlack" = "OLED 纯黑";
+"settings.palette" = "调色板";
+"settings.expressiveShapes" = "表现力形状";
+"settings.seedColor" = "种子色";
+"settings.keepScreenOn" = "保持屏幕常亮";
+"settings.autoStart" = "自动开始";
+"settings.hazeEffect" = "雾面效果";
+"settings.style" = "样式";
+"settings.autoCheckUpdate" = "自动检查更新";
+"settings.useMirror" = "使用镜像下载";
+"settings.mirrorCdk" = "镜像 CDK";
+"settings.version" = "版本";
+"settings.build" = "构建";
+"settings.reset" = "重置所有设置";
+
+/* Audio */
+"audio.sampleRate" = "采样率";
+"audio.channel" = "声道";
+"audio.format" = "格式";
+
+/* Device */
+"device.discovered" = "已发现设备";
+"device.none" = "未发现设备";
+"device.noneHint" = "请确保桌面端已启动并在同一局域网";
+
+/* Stats */
+"stats.packets" = "包";
+"stats.fec" = "FEC";
+"stats.bytes" = "已发";
+
+/* Theme */
+"theme.system" = "跟随系统";
+"theme.light" = "浅色";
+"theme.dark" = "深色";
+
+/* Visualizer */
+"viz.volumeRing" = "音量环";
+"viz.ripple" = "涟漪";
+"viz.bars" = "频谱条";
+"viz.wave" = "波形";
+"viz.glow" = "光晕";
+"viz.particles" = "粒子";
+
+/* USB */
+"usb.guide" = "USB 设置指引";

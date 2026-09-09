@@ -11,12 +11,12 @@ public enum VisualizerStyle: String, CaseIterable, Codable {
 
     public var label: String {
         switch self {
-        case .volumeRing: return "音量环"
-        case .ripple: return "涟漪"
-        case .bars: return "频谱条"
-        case .wave: return "波形"
-        case .glow: return "光晕"
-        case .particles: return "粒子"
+        case .volumeRing: return L10n.s("viz.volumeRing")
+        case .ripple: return L10n.s("viz.ripple")
+        case .bars: return L10n.s("viz.bars")
+        case .wave: return L10n.s("viz.wave")
+        case .glow: return L10n.s("viz.glow")
+        case .particles: return L10n.s("viz.particles")
         }
     }
 

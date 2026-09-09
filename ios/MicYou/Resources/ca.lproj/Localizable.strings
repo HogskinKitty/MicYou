@@ -1,0 +1,85 @@
+/* MicYou iOS - 中文（猫猫语）🐱 Cat Speak */
+
+/* App */
+"app.name" = "MicMeow 🐱";
+
+/* Connection */
+"connection.mode" = "连接喵式 🐾";
+"connection.wifi" = "Wi-Fi 📶";
+"connection.usb" = "USB (iproxy) 🔌";
+"connection.web" = "Web 🌐";
+"connection.ip" = "IP 地址喵";
+"connection.port" = "端口喵";
+"connection.target" = "目标喵";
+"connection.host" = "主机喵";
+"connection.webPort" = "Web 端口喵";
+"connection.transport" = "传输喵议";
+"connection.settings" = "连接设置喵";
+"connection.tcp" = "TCP";
+"connection.both" = "TCP+UDP";
+
+/* State */
+"state.idle" = "待机喵 😴";
+"state.connecting" = "连接中喵… 🐾";
+"state.streaming" = "流式喵 🎤";
+"state.error" = "出错喵 😿";
+
+/* Button */
+"button.start" = "开始喵 ▶️";
+"button.stop" = "停止喵 ⏹️";
+
+/* Settings */
+"settings.title" = "设置喵 ⚙️";
+"settings.appearance" = "外观喵 🎨";
+"settings.behavior" = "行为喵 🐱";
+"settings.language" = "语言喵";
+"settings.visualizer" = "可视化喵";
+"settings.update" = "更新喵";
+"settings.about" = "关于喵 ℹ️";
+"settings.theme" = "主题喵式";
+"settings.dynamicColor" = "动态取色喵";
+"settings.oledBlack" = "OLED 纯黑喵";
+"settings.palette" = "调色盘喵";
+"settings.expressiveShapes" = "表现力形状喵";
+"settings.seedColor" = "种子色喵 🌱";
+"settings.keepScreenOn" = "保持屏幕亮喵";
+"settings.autoStart" = "自动开始喵";
+"settings.hazeEffect" = "雾面效果喵";
+"settings.style" = "样式喵";
+"settings.autoCheckUpdate" = "自动检查更新喵";
+"settings.useMirror" = "用镜像下载喵";
+"settings.mirrorCdk" = "镜像 CDK 喵";
+"settings.version" = "版本喵";
+"settings.build" = "构建喵";
+"settings.reset" = "重置所有设置喵 🐾";
+
+/* Audio */
+"audio.sampleRate" = "采样率喵";
+"audio.channel" = "声道喵";
+"audio.format" = "格式喵";
+
+/* Device */
+"device.discovered" = "已发现设备喵 🔍";
+"device.none" = "没找到设备喵 😿";
+"device.noneHint" = "确保桌面端已启动并在同一局域网喵";
+
+/* Stats */
+"stats.packets" = "包喵";
+"stats.fec" = "FEC";
+"stats.bytes" = "已发喵";
+
+/* Theme */
+"theme.system" = "跟随系统喵";
+"theme.light" = "浅色喵";
+"theme.dark" = "深色喵";
+
+/* Visualizer */
+"viz.volumeRing" = "音量环喵";
+"viz.ripple" = "涟漪喵";
+"viz.bars" = "频谱条喵";
+"viz.wave" = "波形喵";
+"viz.glow" = "光晕喵";
+"viz.particles" = "粒子喵 ✨";
+
+/* USB */
+"usb.guide" = "USB 设置指引喵 🐾";

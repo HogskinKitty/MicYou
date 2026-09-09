@@ -1,0 +1,85 @@
+/* MicYou iOS - English (base) */
+
+/* App */
+"app.name" = "MicYou";
+
+/* Connection */
+"connection.mode" = "Connection Mode";
+"connection.wifi" = "Wi-Fi";
+"connection.usb" = "USB (iproxy)";
+"connection.web" = "Web";
+"connection.ip" = "IP Address";
+"connection.port" = "Port";
+"connection.target" = "Target";
+"connection.host" = "Host";
+"connection.webPort" = "Web Port";
+"connection.transport" = "Transport";
+"connection.settings" = "Connection Settings";
+"connection.tcp" = "TCP";
+"connection.both" = "TCP+UDP";
+
+/* State */
+"state.idle" = "Idle";
+"state.connecting" = "Connecting…";
+"state.streaming" = "Streaming";
+"state.error" = "Error";
+
+/* Button */
+"button.start" = "Start";
+"button.stop" = "Stop";
+
+/* Settings */
+"settings.title" = "Settings";
+"settings.appearance" = "Appearance";
+"settings.behavior" = "Behavior";
+"settings.language" = "Language";
+"settings.visualizer" = "Visualizer";
+"settings.update" = "Update";
+"settings.about" = "About";
+"settings.theme" = "Theme";
+"settings.dynamicColor" = "Dynamic Color";
+"settings.oledBlack" = "OLED Pure Black";
+"settings.palette" = "Palette";
+"settings.expressiveShapes" = "Expressive Shapes";
+"settings.seedColor" = "Seed Color";
+"settings.keepScreenOn" = "Keep Screen On";
+"settings.autoStart" = "Auto Start";
+"settings.hazeEffect" = "Haze Effect";
+"settings.style" = "Style";
+"settings.autoCheckUpdate" = "Auto Check Update";
+"settings.useMirror" = "Use Mirror Download";
+"settings.mirrorCdk" = "Mirror CDK";
+"settings.version" = "Version";
+"settings.build" = "Build";
+"settings.reset" = "Reset All Settings";
+
+/* Audio */
+"audio.sampleRate" = "Sample Rate";
+"audio.channel" = "Channel";
+"audio.format" = "Format";
+
+/* Device */
+"device.discovered" = "Discovered Devices";
+"device.none" = "No devices found";
+"device.noneHint" = "Ensure the desktop app is running on the same LAN";
+
+/* Stats */
+"stats.packets" = "Packets";
+"stats.fec" = "FEC";
+"stats.bytes" = "Sent";
+
+/* Theme */
+"theme.system" = "System";
+"theme.light" = "Light";
+"theme.dark" = "Dark";
+
+/* Visualizer */
+"viz.volumeRing" = "Volume Ring";
+"viz.ripple" = "Ripple";
+"viz.bars" = "Bars";
+"viz.wave" = "Wave";
+"viz.glow" = "Glow";
+"viz.particles" = "Particles";
+
+/* USB */
+"usb.guide" = "USB Setup Guide";

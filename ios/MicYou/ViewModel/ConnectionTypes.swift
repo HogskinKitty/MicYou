@@ -8,9 +8,9 @@ public enum ConnectionMode: String, CaseIterable, Codable {
 
     public var label: String {
         switch self {
-        case .wifi: return "Wi-Fi"
-        case .usb: return "USB (iproxy)"
-        case .web: return "Web"
+        case .wifi: return L10n.s("connection.wifi")
+        case .usb: return L10n.s("connection.usb")
+        case .web: return L10n.s("connection.web")
         }
     }
 
@@ -30,8 +30,8 @@ public enum TransportProtocol: String, CaseIterable, Codable {
 
     public var label: String {
         switch self {
-        case .tcp: return "TCP"
-        case .both: return "TCP+UDP"
+        case .tcp: return L10n.s("connection.tcp")
+        case .both: return L10n.s("connection.both")
         }
     }
 }
@@ -45,10 +45,10 @@ public enum StreamState: String, Equatable {
 
     public var label: String {
         switch self {
-        case .idle: return "待机"
-        case .connecting: return "连接中…"
-        case .streaming: return "流式中"
-        case .error: return "错误"
+        case .idle: return L10n.s("state.idle")
+        case .connecting: return L10n.s("state.connecting")
+        case .streaming: return L10n.s("state.streaming")
+        case .error: return L10n.s("state.error")
         }
     }
 }
