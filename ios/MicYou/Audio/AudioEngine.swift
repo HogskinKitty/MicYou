@@ -54,6 +54,8 @@ public final class AudioEngine: ObservableObject {
     // MARK: - 内部组件
     private var tcp: TcpTransport?
     private var udp: UdpTransport?
+    private var webTransport: WebTransport?
+    private var webSender: WebAudioSender?
     private var captureEngine: AudioCaptureEngine?
     private var sendPipeline: AudioSendPipeline?
     private var heartbeatTask: Task<Void, Never>?
@@ -74,6 +76,11 @@ public final class AudioEngine: ObservableObject {
         guard state == .idle || state == .error else { return }
         await MainActor.run { self.state = .connecting; self.lastError = nil }
         self.config = config
+
+        if config.connectionMode == .web {
+            await startWeb(config)
+            return
+        }
 
         do {
             // 1. 确定目标主机与传输模式
@@ -143,6 +150,59 @@ public final class AudioEngine: ObservableObject {
         }
     }
 
+    // MARK: - Web 模式启动
+    /// Web 模式：WebSocket Float32 PCM，无 protobuf/magic/握手/FEC。
+    /// 对齐桌面 `web_server.rs:297-331`。
+    private func startWeb(_ config: Config) async {
+        do {
+            // 1. WebSocket 连接
+            let web = WebTransport()
+            self.webTransport = web
+            let webPort = config.port == WireConstants.defaultTcpPort
+                ? WireConstants.defaultWebPort : config.port
+            try await web.connect(host: config.host, port: webPort, useTLS: true)
+
+            // 2. 采集引擎（Web 模式固定 48kHz mono）
+            let captureEngine = AudioCaptureEngine(config: .init(
+                sampleRate: .rate48000, channelCount: .mono))
+            self.captureEngine = captureEngine
+
+            // 3. Web 发送器
+            let sender = WebAudioSender(transport: web)
+            self.webSender = sender
+
+            // 4. 接线回调
+            captureEngine.onCapture = { [weak self] frame in
+                self?.webSender?.processFrame(frame)
+            }
+            captureEngine.onLevelUpdate = { [weak self] level in
+                DispatchQueue.main.async { self?.audioLevel = level }
+            }
+
+            // 5. 启动采集
+            try captureEngine.start()
+
+            // 6. WebSocket 定期 ping 保活
+            startWebHeartbeat()
+
+            await MainActor.run { self.state = .streaming }
+
+        } catch {
+            await handleError(error)
+        }
+    }
+
+    private func startWebHeartbeat() {
+        heartbeatTask?.cancel()
+        heartbeatTask = Task { [weak self] in
+            while !Task.isCancelled {
+                try? await Task.sleep(nanoseconds: 10 * 1_000_000_000)  // 10s
+                guard let self = self, !Task.isCancelled else { break }
+                try? await self.webTransport?.ping()
+            }
+        }
+    }
+
     // MARK: - 停止
     /// 停止流式并清理所有资源。
     public func stop() {
@@ -152,10 +212,14 @@ public final class AudioEngine: ObservableObject {
         captureEngine = nil
         sendPipeline?.reset()
         sendPipeline = nil
+        webSender?.reset()
+        webSender = nil
         udp?.close()
         udp = nil
         tcp?.close()
         tcp = nil
+        webTransport?.close()
+        webTransport = nil
         DispatchQueue.main.async {
             self.state = .idle
             self.audioLevel = 0
@@ -167,6 +231,8 @@ public final class AudioEngine: ObservableObject {
     public func setMuted(_ muted: Bool) async {
         await MainActor.run { self.isMuted = muted }
         sendPipeline?.setMuted(muted)
+        webSender?.setMuted(muted)
+        // Web 模式无 TCP 控制通道，仅本地静音
         guard let tcp = tcp else { return }
         let wrapper = MessageWrapper(mute: MuteMessage(isMuted: muted))
         try? await tcp.sendFrame(wrapper)
@@ -233,10 +299,13 @@ public final class AudioEngine: ObservableObject {
         captureEngine?.stop()
         captureEngine = nil
         sendPipeline = nil
+        webSender = nil
         udp?.close()
         udp = nil
         tcp?.close()
         tcp = nil
+        webTransport?.close()
+        webTransport = nil
     }
 
     // MARK: - 辅助
@@ -257,5 +326,6 @@ public final class AudioEngine: ObservableObject {
         captureEngine?.stop()
         udp?.close()
         tcp?.close()
+        webTransport?.close()
     }
 }
