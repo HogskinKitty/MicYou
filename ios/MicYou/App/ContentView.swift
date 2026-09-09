@@ -13,27 +13,12 @@ struct ContentView: View {
                 .foregroundStyle(.tint)
             Text("MicYou")
                 .font(.largeTitle.bold())
-            Text(viewModel.state.streamState.label)
+            Text(viewModel.streamState.label)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.systemBackground))
-        .tint(viewModel.state.seedColor)
-    }
-}
-
-/// 占位：B12 引入完整 MainViewModel 前，提供一个最小实现以让壳可编译。
-/// B12 会用真正的 MVVM 状态管理替换。
-@MainActor
-final class MainViewModel: ObservableObject {
-    @Published var state = AppUiState()
-
-    func onLaunch() {}
-
-    struct AppUiState {
-        var streamState: StreamState = .idle
-        var seedColor: Color = .blue
-        var themeMode: ThemeMode = .system
+        .tint(viewModel.seedColor)
     }
 }

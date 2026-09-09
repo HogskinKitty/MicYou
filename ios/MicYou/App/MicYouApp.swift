@@ -12,7 +12,8 @@ struct MicYouApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(viewModel)
-                .preferredColorScheme(viewModel.state.themeMode.colorScheme)
+                .environmentObject(viewModel.settings)
+                .preferredColorScheme(viewModel.settings.themeMode.colorScheme)
                 .onAppear { viewModel.onLaunch() }
         }
     }
