@@ -1,0 +1,68 @@
+name: iOS CI
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'ios/**'
+      - '.github/workflows/ios-ci.yml'
+  pull_request:
+    paths:
+      - 'ios/**'
+      - '.github/workflows/ios-ci.yml'
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    name: Build & Test (macOS)
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Cache Homebrew
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/Library/Caches/Homebrew
+            /opt/homebrew/Cellar
+          key: brew-${{ runner.os }}-${{ hashFiles('ios/setup.sh') }}
+          restore-keys: brew-${{ runner.os }}-
+
+      - name: Cache opus.xcframework
+        id: cache-opus
+        uses: actions/cache@v4
+        with:
+          path: ios/MicYouOpus/opus.xcframework
+          key: opus-xcframework-${{ runner.os }}-${{ hashFiles('ios/MicYouOpus/build-opus.sh') }}
+
+      - name: Install tools (swift-protobuf, xcodegen)
+        run: |
+          brew install swift-protobuf xcodegen || true
+
+      - name: Build opus.xcframework
+        if: steps.cache-opus.outputs.cache-hit != 'true'
+        run: bash ios/MicYouOpus/build-opus.sh
+
+      - name: Generate proto + Xcode project
+        run: |
+          bash ios/scripts/generate-proto.sh
+          xcodegen generate --spec ios/project.yml --project ios
+
+      - name: Build + Test
+        run: |
+          xcodebuild test \
+            -project ios/MicYou.xcodeproj \
+            -scheme MicYou \
+            -destination 'platform=iOS Simulator,name=iPhone 15,OS=latest' \
+            -derivedDataPath ios/build \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Upload build artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-build-logs
+          path: |
+            ios/build
+            ios/MicYouOpus/build-work
+          retention-days: 7
