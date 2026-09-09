@@ -128,7 +128,8 @@ public final class AudioEngine: ObservableObject {
                 DispatchQueue.main.async { self?.stats = stats }
             }
 
-            // 7. 启动采集
+            // 7. 配置 AVAudioSession + 启动采集
+            try setupAudioSession(sampleRate: Double(config.sampleRate.opusSampleRate))
             try captureEngine.start()
 
             // 8. TCP 接收循环（控制消息）
@@ -179,7 +180,8 @@ public final class AudioEngine: ObservableObject {
                 DispatchQueue.main.async { self?.audioLevel = level }
             }
 
-            // 5. 启动采集
+            // 5. 配置 AVAudioSession + 启动采集
+            try setupAudioSession(sampleRate: 48000)
             try captureEngine.start()
 
             // 6. WebSocket 定期 ping 保活
@@ -220,6 +222,7 @@ public final class AudioEngine: ObservableObject {
         tcp = nil
         webTransport?.close()
         webTransport = nil
+        AudioSessionManager.shared.deactivate()
         DispatchQueue.main.async {
             self.state = .idle
             self.audioLevel = 0
@@ -236,6 +239,15 @@ public final class AudioEngine: ObservableObject {
         guard let tcp = tcp else { return }
         let wrapper = MessageWrapper(mute: MuteMessage(isMuted: muted))
         try? await tcp.sendFrame(wrapper)
+    }
+
+    // MARK: - AVAudioSession
+    private func setupAudioSession(sampleRate: Double) throws {
+        let session = AudioSessionManager.shared
+        try session.configureForRecording(sampleRate: sampleRate)
+        session.onInterruptionBegan = { [weak self] in
+            DispatchQueue.main.async { self?.stop() }
+        }
     }
 
     // MARK: - 心跳
@@ -306,6 +318,7 @@ public final class AudioEngine: ObservableObject {
         tcp = nil
         webTransport?.close()
         webTransport = nil
+        AudioSessionManager.shared.deactivate()
     }
 
     // MARK: - 辅助

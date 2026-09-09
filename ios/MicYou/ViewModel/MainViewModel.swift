@@ -64,12 +64,16 @@ public final class MainViewModel: ObservableObject {
     /// 开始流式。从 settings 构建 config，启动 AudioEngine。
     public func startStreaming() {
         let config = makeConfig()
+        if settings.keepScreenOn {
+            ScreenLifecycle.setKeepScreenOn(true)
+        }
         Task { await engine.start(config) }
     }
 
     /// 停止流式。
     public func stopStreaming() {
         engine.stop()
+        ScreenLifecycle.setKeepScreenOn(false)
     }
 
     /// 切换静音。
